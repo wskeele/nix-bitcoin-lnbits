@@ -4,20 +4,15 @@ let
   lnd = config.services.lnd;
 in
 {
-  config = lib.mkMerge [
-    (lib.mkIf (cfg.backend == "lnd") {
-      services.lnbits.env = {
-        LNBITS_BACKEND_WALLET_CLASS = "LndWallet";
-      };
-    })
-
-    (lib.mkIf (cfg.backend == "lndrest") {
-      services.lnbits.env = {
-        LNBITS_BACKEND_WALLET_CLASS = "LndRestWallet";
-      };
-    })
-
-    (lib.mkIf (cfg.backend == "lndrest" || cfg.backend == "lnd") {
+  config = lib.mkIf
+    (
+      cfg.enable &&
+      (
+        cfg.backend == "LndWallet" ||
+        cfg.backend == "LndRestWallet"
+      )
+    )
+    {
       services.lnbits.env =
         let
           cert = "${cfg.stateDir}/lnd/tls.cert";
@@ -59,6 +54,5 @@ in
       nix-bitcoin.netns-isolation.services.lnbits.connections = [ "lnd" ];
 
       systemd.services.lnbits.after = [ "lnd.service" ];
-    })
-  ];
+    };
 }

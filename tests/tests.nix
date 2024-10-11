@@ -21,12 +21,12 @@ let
       '';
       enable = true;
     };
-    services.lnbits.backend = "clightning";
+    services.lnbits.backend = "CoreLightningWallet";
     tests.lnbits-clightning = true;
   });
   modules.lnd = ({ pkgs, lib, ... }: {
     services.lnd.enable = true;
-    services.lnbits.backend = "lnd";
+    services.lnbits.backend = "LndWallet";
     tests.lnbits-lnd = true;
   });
   modules.lndrest = ({ pkgs, lib, ... }: {
@@ -35,7 +35,7 @@ let
       alias=lndtest
       color=#123456
     '';
-    services.lnbits.backend = "lndrest";
+    services.lnbits.backend = "LndRestWallet";
     tests.lnbits-lndrest = true;
   });
 in

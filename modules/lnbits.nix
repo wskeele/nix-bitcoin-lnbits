@@ -17,11 +17,14 @@ in
 
     backend = lib.mkOption {
       type = with lib.types; nullOr (enum [
-        "clightning"
-        "lnd"
-        "lndrest"
+        "VoidWallet"
+        "FakeWallet"
+        "CoreLightningWallet"
+        # "CoreLightningRestWallet"
+        "LndWallet"
+        "LndRestWallet"
       ]);
-      default = null;
+      default = "VoidWallet";
       description = ''
         Lightning backend to use.
       '';
@@ -41,7 +44,7 @@ in
   };
 
   config = lib.mkMerge [
-    (lib.mkIf cfg.enable {
+    (lib.mkIf (cfg.enable) {
       services.lnbits = {
         package = lib.mkOverride 900 nbPkgs.lnbits;
         env = {
@@ -49,6 +52,7 @@ in
           LNBITS_NODE_UI = lib.boolToString cfg.nodeUI.enable;
           LNBITS_PUBLIC_NODE_UI = lib.boolToString cfg.nodeUI.public.enable;
           LNBITS_NODE_UI_TRANSACTIONS = lib.boolToString cfg.nodeUI.enableTransactions;
+          LNBITS_BACKEND_WALLET_CLASS = cfg.backend;
         } //
         (lib.optionalAttrs (cfg.tor.proxy) torEnvs);
       };
