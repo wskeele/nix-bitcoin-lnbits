@@ -13,6 +13,12 @@ let
     tests.lnbits = true;
     test.extraTestScript = builtins.readFile ./tests.py;
   });
+  modules.fakeWallet = ({ pkgs, lib, ... }: {
+    services.lnbits = {
+      backend = "FakeWallet";
+      FakeWallet.secretFile = builtins.toFile "fakeWalletSecret" "ToTheMoon";
+    };
+  });
   modules.clightning = ({ pkgs, lib, ... }: {
     services.clightning = {
       extraConfig = ''
@@ -44,6 +50,14 @@ in
     name = "lnbits-default";
     config.imports = [
       modules.base
+    ];
+  };
+
+  fakeWallet = makeTest {
+    name = "lnbits-fakeWallet";
+    config.imports = [
+      modules.base
+      modules.fakeWallet
     ];
   };
 

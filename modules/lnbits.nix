@@ -10,6 +10,7 @@ in
   imports = [
     ./backends/clightning.nix
     ./backends/lnd.nix
+    ./backends/fakewallet.nix
   ];
 
   options.services.lnbits = {

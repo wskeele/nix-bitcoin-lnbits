@@ -7,8 +7,8 @@
     - [ ] BoltzWallet
     - [ ] AlbyWallet
     - [ ] BreezSdkWallet
-    - [ ] VoidWallet
-    - [ ] FakeWallet
+    - [x] VoidWallet
+    - [x] FakeWallet
     - [ ] Eclair
     - [ ] LnTipsWallet
     - [ ] LNPayWallet
