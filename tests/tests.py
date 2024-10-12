@@ -1,5 +1,8 @@
 import json
 
+def assert_log_does_not_contain(unit, str):
+    machine.fail(f"journalctl -b --output=cat -u {unit} --grep='{str}'")
+
 @test("lnbits")
 def _():
     assert_running("lnbits")
@@ -7,6 +10,8 @@ def _():
         log_has_string("lnbits", "Application startup complete")
     )
     assert_matches(f"curl -fsS -L {ip('lnbits')}:8231/api/v1/health", "null")
+    assert_log_does_not_contain("lnbits", "Fallback to VoidWallet")
+
 
 @test("lnbits-clightning")
 def _():
