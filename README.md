@@ -41,7 +41,7 @@ Example configuration:
 ```nix
   services.lnbits = {
     enable = true;
-    backend = "clightning";
+    backend = "CoreLightningWallet";
     adminUI.enable = true;
     nodeUI.enable = true;
     nodeUI.enableTransactions = true;
