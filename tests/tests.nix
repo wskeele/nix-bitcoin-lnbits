@@ -30,6 +30,18 @@ let
     services.lnbits.backend = "CoreLightningWallet";
     tests.lnbits-clightning = true;
   });
+  modules.clightning-rest = ({ pkgs, lib, ... }: {
+    services.clightning = {
+      extraConfig = ''
+        alias=clntest
+        rgb=123456
+      '';
+      enable = true;
+    };
+    services.clightning-rest.enable = true;
+
+    services.lnbits.backend = "CoreLightningRestWallet";
+  });
   modules.lnd = ({ pkgs, lib, ... }: {
     services.lnd.enable = true;
     services.lnbits.backend = "LndWallet";
@@ -69,6 +81,14 @@ in
     ];
   };
 
+  clightning-rest = makeTest {
+    name = "lnbits-clightning";
+    config.imports = [
+      modules.base
+      modules.clightning-rest
+    ];
+  };
+
   clightning-netns = makeTest {
     name = "lnbits-clightning-netns";
     config.imports = [
@@ -76,7 +96,16 @@ in
       modules.clightning
       nbScenarios.netnsBase
     ];
+    config.nix-bitcoin.nodeinfo.enable = true;
+  };
 
+  clightning-rest-netns = makeTest {
+    name = "lnbits-clightning";
+    config.imports = [
+      modules.base
+      modules.clightning-rest
+      nbScenarios.netnsBase
+    ];
     config.nix-bitcoin.nodeinfo.enable = true;
   };
 

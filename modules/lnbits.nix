@@ -21,7 +21,7 @@ in
         "VoidWallet"
         "FakeWallet"
         "CoreLightningWallet"
-        # "CoreLightningRestWallet"
+        "CoreLightningRestWallet"
         "LndWallet"
         "LndRestWallet"
       ]);
