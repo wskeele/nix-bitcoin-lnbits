@@ -2,7 +2,7 @@
   description = "A very basic flake";
 
   inputs = {
-    lnbits.url = "github:lnbits/lnbits";
+    lnbits.url = "github:lnbits/lnbits/v1.3.1";
     nix-bitcoin.url = "github:fort-nix/nix-bitcoin";
   };
 
