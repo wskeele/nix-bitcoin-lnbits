@@ -61,6 +61,7 @@ in
         serviceConfig =
           nbLib.defaultHardening //
           nbLib.allowedIPAddresses cfg.tor.enforce // {
+            MemoryDenyWriteExecute = false; # Causes FFI to crash with pynostr if enabled
             ReadWritePaths = [ cfg.stateDir ];
           };
       };
